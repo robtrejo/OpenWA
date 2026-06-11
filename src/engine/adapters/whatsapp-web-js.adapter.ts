@@ -155,6 +155,17 @@ export class WhatsAppWebJsAdapter extends EventEmitter implements IWhatsAppEngin
           isGroup: msg.from.endsWith('@g.us'),
         };
 
+        // Handle location
+        if (msg.type === 'location' && msg.location) {
+          incomingMessage.location = {
+            latitude: Number(msg.location.latitude),
+            longitude: Number(msg.location.longitude),
+            description: msg.location.description || undefined,
+            address: msg.location.address || undefined,
+            url: msg.location.url || undefined,
+          };
+        }
+
         // Handle media
         if (msg.hasMedia) {
           try {
